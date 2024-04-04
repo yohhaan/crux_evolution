@@ -1,4 +1,5 @@
 from datetime import datetime
+import argparse
 import matplotlib.pyplot as plt
 import numpy as np
 import os
@@ -39,11 +40,22 @@ def savefig(path, size=[4, 3]):
 
 
 if __name__ == "__main__":
-    crux_dir = "./crux/"
+    # Create Argument Parser
+    parser = argparse.ArgumentParser(
+        prog="python3 heatmap.py",
+        description="Heatmap visualization of stability of origins from top specified `rank` across time in CrUX",
+    )
+    parser.add_argument("crux_dir")
+    parser.add_argument(
+        "rank", type=int, choices=[1000, 5000, 10000, 50000, 100000, 500000, 1000000]
+    )
+    args = parser.parse_args()
+
+    crux_dir = args.crux_dir
     dfs = []
     filenames = []
     crux_size = 1000000
-    crux_top = 100000
+    crux_top = args.rank
 
     # collect filenames
     for filename in os.listdir(crux_dir):
@@ -82,5 +94,5 @@ if __name__ == "__main__":
         annot=False,
         square=True,
     )
-    plt.savefig("heatmap.png", bbox_inches="tight")  # for readme
-    savefig("./heatmap.pdf")
+    plt.savefig("heatmap_" + str(crux_top) + ".png", bbox_inches="tight")  # for readme
+    savefig("./heatmap_" + str(crux_top) + ".pdf")  # better quality

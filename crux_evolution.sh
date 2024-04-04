@@ -31,5 +31,5 @@ do
 done
 
 #generate heatmap
-python3 heatmap.py
+python3 heatmap.py ./crux/ 100000
 
